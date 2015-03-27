@@ -71,8 +71,10 @@ class PlayState extends FlxState {
 		FlxG.overlap(aino, pila, collideAino);
 		FlxG.overlap(zion, pila, collideZion);
 		
-		FlxG.overlap(bulletPool, aino, aionHit);
-		FlxG.overlap(bulletPool, zion, zionHit);
+		FlxG.overlap(bulletPool, aino, killAllHit);
+		FlxG.overlap(bulletPool, zion, killAllHit);
+		
+		FlxG.overlap(bulletPool, bulletPool, killAllHit);
 	}	
 	
 	private function collideAino(pad: FlxSprite, pila: Pila):Void {
@@ -83,11 +85,12 @@ class PlayState extends FlxState {
 		pila.collideTop();
 	}
 	
-	private function aionHit(aino: Aino, bullet:BulletPool):Void {
-		
+	private function killAllHit(Obj1: FlxSprite, Obj2:FlxSprite):Void {
+		Obj1.kill();
+		Obj2.kill();
 	}
 	
-	private function zionHit(zion: Zion, bullet:BulletPool):Void {
-		
-	}
+	//private function zionHit(zion: Zion, bullet:BulletPool):Void {
+		//
+	//}
 }

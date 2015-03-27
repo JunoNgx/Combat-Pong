@@ -6,7 +6,6 @@ import flixel.FlxG;
 import flixel.group.FlxSpriteGroup;
 
 import G;
-//import Pad;
 
 /**
  * ...
@@ -18,15 +17,13 @@ class Aino extends FlxSpriteGroup {
 	var input_rt: Bool;
 	
 	var forceRate: Float;
-	
-	var Pads: Array<FlxSprite>;
 
 	public function new() {
 		super();
 		//makeGraphic(196, 8, FlxColor.AZURE, true);
 		this.x = FlxG.width / 2;
 		this.y = FlxG.height * 0.9;
-		this.maxSize = 7;
+		this.maxSize = G.numOfPad;
 		
 		for (i in 1...(G.numOfPad+1)) {
 			var pad = new FlxSprite(i);
@@ -45,8 +42,6 @@ class Aino extends FlxSpriteGroup {
 	
 	public function updatePosition(): Void {
 		this.forEachAlive(function (pad: FlxSprite):Void {
-			//pad.x = this.x + (pad.ID - 4) * (pad.width / 2 + G.padSpacing) - G.padSpacing/2;
-			//pad.x = this.x + pad.ID * pad.width + G.padSpacing;
 			pad.x = this.x + (pad.ID - ((G.numOfPad + 1)/2)) * (pad.width + G.padSpacing) - G.padSpacing/2;
 		});
 	}
@@ -59,9 +54,9 @@ class Aino extends FlxSpriteGroup {
 			this.velocity.x = G.playerSpeed;
 		} else this.velocity.x = 0;
 
-		if (FlxG.keys.anyJustPressed( ["DOWN"] )) {
-			
-		}
+		//if (FlxG.keys.anyJustPressed( ["DOWN"] )) {
+			//
+		//}
 		
 		if (FlxG.keys.anyPressed( ["DOWN"] )) {
 			if (forceRate < 5) forceRate += FlxG.elapsed;
