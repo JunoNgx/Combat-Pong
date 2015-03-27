@@ -4,14 +4,18 @@ import flixel.FlxSprite;
 import flixel.util.FlxColor;
 import flixel.FlxG;
 
+import G;
+
 /**
  * ...
  * @author Juno Nguyen
  */
-class ZionCtrl extends FlxSprite {
+class Zion extends FlxSprite {
 	
 	var input_lt: Bool;
 	var input_rt: Bool;
+	
+	var forceRate: Float;
 	
 	public var isFiring: Bool;
 	
@@ -38,10 +42,25 @@ class ZionCtrl extends FlxSprite {
 			this.velocity.x = SPEED;
 		} else this.velocity.x = 0;
 		
-		if (FlxG.keys.anyPressed(["S"])) {
-			//fire();
-			isFiring = true;
-		} else isFiring = false;
+		//if (FlxG.keys.anyPressed(["S"])) {
+			////fire();
+			//isFiring = true;
+		//} else isFiring = false;
+		
+		if (FlxG.keys.anyJustPressed( ["S"] )) {
+			
+		}
+		
+		if (FlxG.keys.anyPressed( ["S"] )) {
+			if (forceRate < 5) forceRate += FlxG.elapsed;
+		}
+		
+		if (FlxG.keys.anyJustReleased( ["S"] )) {
+			if (forceRate > G.forceRate_min) {
+				PlayState.bulletPool.fireBullet(false, this.x, forceRate);
+			}
+			forceRate = 0;
+		}
 	}
 	
 	public function fire(): Void {

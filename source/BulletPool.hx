@@ -11,8 +11,7 @@ import flixel.FlxG;
  */
 class BulletPool extends FlxSpriteGroup {
 	
-	static var bulletSPEED: Float = 500;
-	static var distFromCtrl: Float = 20;
+	static var distFromCtrl: Float = 100;
 
 	public function new() {
 		super();
@@ -26,16 +25,16 @@ class BulletPool extends FlxSpriteGroup {
 		this.checkOnScreen();
 	}
 	
-	public function fireBullet( fromAino:Bool, X:Float ) {
+	public function fireBullet( fromAino:Bool, X:Float, forceRate:Float ) {
 		var bullet = this.getFirstDead();
 		if (bullet == null) bullet = createBullet();
 		
 		if (fromAino) {
 			bullet.y = FlxG.height * 0.9 - distFromCtrl;
-			bullet.velocity.y = -bulletSPEED;
+			bullet.velocity.y = -G.bulletSpeed * forceRate * 2;
 		} else {
 			bullet.y = FlxG.height * 0.1 + distFromCtrl;
-			bullet.velocity.y = bulletSPEED;
+			bullet.velocity.y = G.bulletSpeed * forceRate * 2;
 		}
 		
 		bullet.x = X;
@@ -45,8 +44,8 @@ class BulletPool extends FlxSpriteGroup {
 	public function createBullet() {
 		var bullet:FlxSprite = new FlxSprite();
 		
-		bullet.makeGraphic(32, 16, FlxColor.CRIMSON);
-		bullet.velocity.y = -bulletSPEED;
+		bullet.makeGraphic(16, 32, FlxColor.CRIMSON);
+		//bullet.velocity.y = -bulletSPEED;
 		this.add(bullet);
 		
 		return bullet;

@@ -3,17 +3,25 @@ package;
 import flixel.FlxSprite;
 import flixel.util.FlxColor;
 import flixel.FlxG;
+import flixel.FlxState;
+import flixel.group.FlxSpriteGroup;
+
+//import BulletPool;
+//import PlayState;
 
 using flixel.util.FlxSpriteUtil;
+import G;
 
 /**
  * ...
  * @author Juno Nguyen
  */
-class AinoCtrl extends FlxSprite {
+class Aino extends FlxSprite {
 	
 	var input_lt: Bool;
 	var input_rt: Bool;
+	
+	var forceRate: Float;
 	
 	public var isFiring:Bool;
 	
@@ -51,15 +59,29 @@ class AinoCtrl extends FlxSprite {
 			this.velocity.x = SPEED;
 		} else this.velocity.x = 0;
 		
-		if (FlxG.keys.anyPressed(["DOWN"])) {
-			//fire();
-			isFiring = true;
-		} else isFiring = false;
+		//if (FlxG.keys.anyPressed(["DOWN"])) {
+			////fire();
+			//isFiring = true;
+		//} else isFiring = false;
+		if (FlxG.keys.anyJustPressed( ["DOWN"] )) {
+			
+		}
+		
+		if (FlxG.keys.anyPressed( ["DOWN"] )) {
+			if (forceRate < 5) forceRate += FlxG.elapsed;
+		}
+		
+		if (FlxG.keys.anyJustReleased( ["DOWN"] )) {
+			if (forceRate > G.forceRate_min) {
+				PlayState.bulletPool.fireBullet(true, this.x, forceRate);
+			}
+			forceRate = 0;
+		}
 	}
 	
-	public function fire(): Void {
-		
-	}
+	//public function fire(state:FlxState): Void {
+		//state.bulletPool.fireBullet(false, this.x);
+	//}
 	
 	//override public function destroy():Void {
 		//super.destroy();
