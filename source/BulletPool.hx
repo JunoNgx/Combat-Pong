@@ -13,7 +13,7 @@ import G;
  */
 class BulletPool extends FlxSpriteGroup {
 	
-	static var distFromCtrl: Float = 100;
+	static var distFromCtrl: Float = 40;
 
 	public function new() {
 		super();
@@ -32,14 +32,14 @@ class BulletPool extends FlxSpriteGroup {
 		if (bullet == null) bullet = createBullet();
 		
 		if (fromAino) {
-			bullet.y = FlxG.height * 0.9 - distFromCtrl;
+			bullet.y = FlxG.height * 0.9 - bullet.height - distFromCtrl;
 			bullet.velocity.y = -G.bulletSpeed * forceRate * G.forceRate_multiplier;
 		} else {
 			bullet.y = FlxG.height * 0.1 + distFromCtrl;
 			bullet.velocity.y = G.bulletSpeed * forceRate * G.forceRate_multiplier;
 		}
 		
-		bullet.x = X;
+		bullet.x = X - bullet.width/2;
 		bullet.revive();
 	}
 	

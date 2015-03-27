@@ -4,23 +4,23 @@ import flixel.util.FlxColor;
 import flixel.util.FlxRandom;
 import flixel.FlxG;
 
+import flixel.util.FlxTimer;
+
 /**
  * ...
  * @author Juno Nguyen
  */
 class Pila extends FlxSprite {
 	
-	private var dir_x: Int =1;
-	private var dir_y: Int =1;
+	private var dir_x: Int = 0;
+	private var dir_y: Int = 0;
 
-	//private static var SPEED = 300;
-	
 	public function new() {
 		super();
 		makeGraphic(8, 8, FlxColor.CYAN);
 		
-		this.x = FlxG.width / 2;
-		this.y = FlxG.height / 2;
+		this.x = FlxG.width / 2 - this.width/2;
+		this.y = FlxG.height / 2 - this.height/2;
 		
 		//push();
 	}
@@ -31,18 +31,13 @@ class Pila extends FlxSprite {
 		this.velocity.x = dir_x * G.pilaSpeed;
 		this.velocity.y = dir_y * G.pilaSpeed;
 		
-		//// Somehow these don't work
-		//if (this.x < 0 || this.x > FlxG.width - this.width) { dir_x = dir_x * -1;}
-		//if (this.y < 0 || this.y > FlxG.height - this.height) { dir_y = dir_y * -1;}
-		
-		// Workaround
 		if (this.x < 0) collideLeft();
 		if (this.x > FlxG.width - this.width) collideRight();
 		if (this.y < 0) collideTop();
 		if (this.y > FlxG.height - this.height) collideBottom();
 	}
 	
-	public function push() {
+	public function push(timer:FlxTimer) {
 		if (FlxRandom.chanceRoll()) {
 			dir_x = 1;
 		} else dir_x = -1;

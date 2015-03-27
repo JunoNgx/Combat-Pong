@@ -5,13 +5,15 @@ import flixel.FlxState;
 
 import flixel.FlxSprite;
 import flixel.text.FlxText;
-import flixel.ui.FlxButton;
-
 import flixel.util.FlxMath;
-import flixel.util.FlxSpriteUtil;
 import flixel.util.FlxColor;
 
+import flixel.util.FlxTimer;
+
 import G;
+
+using flixel.util.FlxSpriteUtil;
+//using flixel.util.LineStyle;
 
 /**
  * A FlxState which can be used for the actual gameplay.
@@ -22,29 +24,51 @@ class PlayState extends FlxState {
 	public var zion: Zion;
 	public var pila: Pila;
 	
+	public var hp_aino: Int = 5;
+	public var hp_zion: Int = 5;
+	
 	public static var bulletPool: BulletPool;
+	public var timer_push: FlxTimer;
+	public var timer_reset: FlxTimer;
+	
+	public static var ui: UI;
 	/**
 	 * Function that is called up when to state is created to set it up. 
 	 */
 	override public function create():Void {
 		super.create();
 		
-		aino = new Aino();
-		add(aino);
-		
-		zion = new Zion();
-		add(zion);
-		
-		pila = new Pila();
-		add(pila);
+		this.bgColor = 0xFF202020;
 		
 		bulletPool = new BulletPool();
 		add(bulletPool);
 		
-		FlxG.debugger.track(bulletPool);
+		aino = new Aino();
+		zion = new Zion();
+		pila = new Pila();
+		ui = new UI();
+		
+		add(ui);
+		add(aino);
+		add(zion);
+		add(pila);
+		
+		ui.drawAinoHP(hp_aino);
+		ui.drawZionHP(hp_zion);
+		
+		timer_push = new FlxTimer(1.5, pila.push);
+		
+		//timer_reset = new FlxTimer(2, resetGame);
+
+		
+		//FlxG.debugger.track(bulletPool);
+		
+
 		//FlxG.watch(bulletPool, maxSize);
 		
-		pila.push();
+		//resetGame();
+		
+		//pila.push();
 	}
 	
 	/**
@@ -90,6 +114,12 @@ class PlayState extends FlxState {
 		Obj2.kill();
 	}
 	
+	
+	function resetGame(timer_push:FlxTimer):Void {
+
+		
+		
+	}
 	//private function zionHit(zion: Zion, bullet:BulletPool):Void {
 		//
 	//}

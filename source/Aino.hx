@@ -20,14 +20,13 @@ class Aino extends FlxSpriteGroup {
 
 	public function new() {
 		super();
-		//makeGraphic(196, 8, FlxColor.AZURE, true);
 		this.x = FlxG.width / 2;
-		this.y = FlxG.height * 0.9;
+		this.y = FlxG.height * 0.9 - G.padThickness/2;
 		this.maxSize = G.numOfPad;
 		
 		for (i in 1...(G.numOfPad+1)) {
 			var pad = new FlxSprite(i);
-			pad.makeGraphic(16, 8, FlxColor.MAUVE);
+			pad.makeGraphic(G.padLength, G.padThickness, FlxColor.MAUVE);
 			pad.ID = i;
 			this.add(pad);
 		}
