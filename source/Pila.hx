@@ -17,7 +17,7 @@ class Pila extends FlxSprite {
 
 	public function new() {
 		super();
-		makeGraphic(8, 8, FlxColor.CYAN);
+		makeGraphic(8, 8, FlxColor.CRIMSON);
 		
 		this.x = FlxG.width / 2 - this.width/2;
 		this.y = FlxG.height / 2 - this.height/2;

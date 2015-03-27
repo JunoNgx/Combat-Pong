@@ -2,6 +2,7 @@ package;
 
 import flixel.FlxG;
 import flixel.FlxState;
+import flixel.system.scaleModes.RatioScaleMode;
 
 import flixel.FlxSprite;
 import flixel.text.FlxText;
@@ -9,6 +10,8 @@ import flixel.util.FlxMath;
 import flixel.util.FlxColor;
 
 import flixel.util.FlxTimer;
+import flixel.system.scaleModes.FillScaleMode;
+import flixel.system.scaleModes.RatioScaleMode;
 
 import G;
 
@@ -32,6 +35,11 @@ class PlayState extends FlxState {
 	public var timer_reset: FlxTimer;
 	
 	public static var ui: UI;
+	
+	public static var text: FlxText;
+	
+	public static var fillScale: FillScaleMode;
+	public static var ratioScale: RatioScaleMode;
 	/**
 	 * Function that is called up when to state is created to set it up. 
 	 */
@@ -39,7 +47,15 @@ class PlayState extends FlxState {
 		super.create();
 		
 		this.bgColor = 0xFF202020;
-		
+
+		ratioScale = new RatioScaleMode();
+		fillScale = new FillScaleMode();
+#if mobile
+		FlxG.scaleMode = fillScale;
+#else
+		FlxG.scaleMode = ratioScale;
+#end
+
 		bulletPool = new BulletPool();
 		add(bulletPool);
 		
@@ -58,17 +74,15 @@ class PlayState extends FlxState {
 		
 		timer_push = new FlxTimer(1.5, pila.push);
 		
-		//timer_reset = new FlxTimer(2, resetGame);
-
+		trace(FlxG.width);
+		trace(FlxG.height);
 		
-		//FlxG.debugger.track(bulletPool);
+		text = new FlxText(FlxG.width/2, FlxG.height/2 + 50, -1); // x, y, width
+		text.text = "Hallo";
+		text.setFormat("assets/fonts/boring.ttf", 40, FlxColor.WHITE, "left");
+		add(text);
+		//text.setBorderStyle(FlxText.BORDER_OUTLINE, FlxColor.RED, 1);
 		
-
-		//FlxG.watch(bulletPool, maxSize);
-		
-		//resetGame();
-		
-		//pila.push();
 	}
 	
 	/**

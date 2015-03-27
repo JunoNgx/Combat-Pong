@@ -17,6 +17,13 @@ class Aino extends FlxSpriteGroup {
 	var input_rt: Bool;
 	
 	var forceRate: Float;
+#if mobile
+	var touchID: Int = -1;
+	var touchID2: Int = -1;
+	
+	var t_sx: Float;
+	var ox: Float;
+#end
 
 	public function new() {
 		super();
@@ -26,7 +33,7 @@ class Aino extends FlxSpriteGroup {
 		
 		for (i in 1...(G.numOfPad+1)) {
 			var pad = new FlxSprite(i);
-			pad.makeGraphic(G.padLength, G.padThickness, FlxColor.MAUVE);
+			pad.makeGraphic(G.padLength, G.padThickness, G.gameColor);
 			pad.ID = i;
 			this.add(pad);
 		}
@@ -37,6 +44,8 @@ class Aino extends FlxSpriteGroup {
 		
 		updateInput();
 		updatePosition();
+		
+		keepOnScreen();
 	}
 	
 	public function updatePosition(): Void {
@@ -46,7 +55,7 @@ class Aino extends FlxSpriteGroup {
 	}
 	
 	public function updateInput(): Void {
-		
+#if (web || flash || desktop)
 		if (FlxG.keys.anyPressed(["LEFT"])) {
 			this.velocity.x = -G.playerSpeed;
 		} else if (FlxG.keys.anyPressed(["RIGHT"])) {
@@ -63,9 +72,59 @@ class Aino extends FlxSpriteGroup {
 		
 		if (FlxG.keys.anyJustReleased( ["DOWN"] )) {
 			if (forceRate > G.forceRate_min) {
-				PlayState.bulletPool.fireBullet(true, this.x, forceRate);
+				fire();
 			}
 			forceRate = 0;
 		}
+#end
+
+#if mobile
+		for (t in FlxG.touches.list) {
+			if (t.justPressed && t.screenY > FlxG.height / 2 && touchID == -1) {
+				touchID = t.touchPointID;
+				t_sx = t.x;
+				ox = x;
+			}
+				
+			//Second touch on half of the screen
+			for (t2 in FlxG.touches.list) {
+				if ((t2.justPressed) && (t2.screenY > FlxG.height / 2) && (t2.touchPointID != touchID) && (touchID != -1)) {
+					touchID2 = t2.touchPointID;
+				}
+			}
+		}
+		
+		if (touchID != -1) {
+				var t = FlxG.touches.getByID(touchID);
+				if (t.pressed) x = ox + t.x - t_sx;
+				if (t.justReleased) touchID = -1;
+		}
+		
+		if (touchID2 != -1) {
+				var t = FlxG.touches.getByID(touchID2);
+				if (t.pressed) {
+					if (forceRate < 5) forceRate += FlxG.elapsed;
+				}
+				if (t.justReleased) {
+					fire();
+					forceRate = 0;
+					touchID2 = -1;
+				}
+		}
+#end
+	}
+	
+	public function keepOnScreen(): Void {
+		if (x > FlxG.width - G.margin_x) {
+			x = FlxG.width - G.margin_x;
+		}
+		
+		if (x < G.margin_x) {
+			x = G.margin_x;
+		}
+	}
+	
+	public function fire():Void {
+		PlayState.bulletPool.fireBullet(true, this.x, forceRate);
 	}
 }

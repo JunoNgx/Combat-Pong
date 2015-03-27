@@ -39,13 +39,13 @@ class BulletPool extends FlxSpriteGroup {
 			bullet.velocity.y = G.bulletSpeed * forceRate * G.forceRate_multiplier;
 		}
 		
-		bullet.x = X - bullet.width/2;
+		bullet.x = X + bullet.width/2;
 		bullet.revive();
 	}
 	
 	public function createBullet() {
 		var bullet:FlxSprite = new FlxSprite();
-		bullet.makeGraphic(16, 32, FlxColor.CRIMSON);
+		bullet.makeGraphic(8, 24, FlxColor.CRIMSON);
 		this.add(bullet);
 		
 		return bullet;
