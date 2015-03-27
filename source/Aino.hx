@@ -3,66 +3,62 @@ package;
 import flixel.FlxSprite;
 import flixel.util.FlxColor;
 import flixel.FlxG;
-import flixel.FlxState;
 import flixel.group.FlxSpriteGroup;
 
-//import BulletPool;
-//import PlayState;
-
-using flixel.util.FlxSpriteUtil;
 import G;
+//import Pad;
 
 /**
  * ...
  * @author Juno Nguyen
  */
-class Aino extends FlxSprite {
+class Aino extends FlxSpriteGroup {
 	
 	var input_lt: Bool;
 	var input_rt: Bool;
 	
 	var forceRate: Float;
 	
-	public var isFiring:Bool;
-	
-	private static var SPEED: Int = 300;
+	var Pads: Array<FlxSprite>;
 
-	//var 
-	
 	public function new() {
 		super();
-		makeGraphic(196, 32, FlxColor.AZURE, true);
-
-		
-		//setSize(196, 32);
-		
-		//this.setSize(500, 40);
-		//this.offset.set(-98, -32);
-		//this.origin.set(-98, -32);
-		
-		//this.centerOrigin();
-		//this.centerOffsets();
+		//makeGraphic(196, 8, FlxColor.AZURE, true);
 		this.x = FlxG.width / 2;
 		this.y = FlxG.height * 0.9;
+		this.maxSize = 7;
 		
-		//FlxSpriteUtil.drawRect(this, this.x - this.width / 2, this.y - this.height / 2, this.width, this.height, FlxColor.CRIMSON);
+		for (i in 1...(G.numOfPad+1)) {
+			var pad = new FlxSprite(i);
+			pad.makeGraphic(16, 8, FlxColor.MAUVE);
+			pad.ID = i;
+			this.add(pad);
+		}
 	}
 	
 	override public function update(): Void {
 		super.update();
 		
-		//input_lt = FlxG.inputs.anyPressed(["LEFT"]);
+		updateInput();
+		updatePosition();
+	}
+	
+	public function updatePosition(): Void {
+		this.forEachAlive(function (pad: FlxSprite):Void {
+			//pad.x = this.x + (pad.ID - 4) * (pad.width / 2 + G.padSpacing) - G.padSpacing/2;
+			//pad.x = this.x + pad.ID * pad.width + G.padSpacing;
+			pad.x = this.x + (pad.ID - ((G.numOfPad + 1)/2)) * (pad.width + G.padSpacing) - G.padSpacing/2;
+		});
+	}
+	
+	public function updateInput(): Void {
 		
 		if (FlxG.keys.anyPressed(["LEFT"])) {
-			this.velocity.x = -SPEED;
+			this.velocity.x = -G.playerSpeed;
 		} else if (FlxG.keys.anyPressed(["RIGHT"])) {
-			this.velocity.x = SPEED;
+			this.velocity.x = G.playerSpeed;
 		} else this.velocity.x = 0;
-		
-		//if (FlxG.keys.anyPressed(["DOWN"])) {
-			////fire();
-			//isFiring = true;
-		//} else isFiring = false;
+
 		if (FlxG.keys.anyJustPressed( ["DOWN"] )) {
 			
 		}
@@ -78,12 +74,4 @@ class Aino extends FlxSprite {
 			forceRate = 0;
 		}
 	}
-	
-	//public function fire(state:FlxState): Void {
-		//state.bulletPool.fireBullet(false, this.x);
-	//}
-	
-	//override public function destroy():Void {
-		//super.destroy();
-	//}
 }

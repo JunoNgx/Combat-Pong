@@ -1,12 +1,13 @@
 package;
 
 import flixel.FlxG;
-import flixel.FlxSprite;
 import flixel.FlxState;
+
+import flixel.FlxSprite;
 import flixel.text.FlxText;
 import flixel.ui.FlxButton;
-import flixel.util.FlxMath;
 
+import flixel.util.FlxMath;
 import flixel.util.FlxSpriteUtil;
 import flixel.util.FlxColor;
 
@@ -30,8 +31,6 @@ class PlayState extends FlxState {
 		
 		aino = new Aino();
 		add(aino);
-		
-		FlxSpriteUtil.drawRect(aino, aino.x - aino.width / 2, aino.y - aino.height / 2, aino.width, aino.height, FlxColor.CRIMSON);
 		
 		zion = new Zion();
 		add(zion);
@@ -76,11 +75,11 @@ class PlayState extends FlxState {
 		FlxG.overlap(bulletPool, zion, zionHit);
 	}	
 	
-	private function collideAino(aino: Aino, pila: Pila):Void {
+	private function collideAino(pad: FlxSprite, pila: Pila):Void {
 		pila.collideBottom();
 	}
 	
-	private function collideZion(zion: Zion, pila: Pila):Void {
+	private function collideZion(pad: FlxSprite, pila: Pila):Void {
 		pila.collideTop();
 	}
 	

@@ -17,16 +17,9 @@ class Zion extends FlxSprite {
 	
 	var forceRate: Float;
 	
-	public var isFiring: Bool;
-	
-	private static var SPEED: Int = 300;
-
-	//var 
-	
 	public function new() {
 		super();
-		makeGraphic(196, 32, FlxColor.FOREST_GREEN);
-		
+		makeGraphic(196, 8, FlxColor.FOREST_GREEN);
 		this.x = FlxG.width / 2;
 		this.y = FlxG.height * 0.1;
 	}
@@ -34,18 +27,11 @@ class Zion extends FlxSprite {
 	override public function update(): Void {
 		super.update();
 		
-		//input_lt = FlxG.inputs.anyPressed(["LEFT"]);
-		
 		if (FlxG.keys.anyPressed(["A"])) {
-			this.velocity.x = -SPEED;
+			this.velocity.x = -G.playerSpeed;
 		} else if (FlxG.keys.anyPressed(["D"])) {
-			this.velocity.x = SPEED;
+			this.velocity.x = G.playerSpeed;
 		} else this.velocity.x = 0;
-		
-		//if (FlxG.keys.anyPressed(["S"])) {
-			////fire();
-			//isFiring = true;
-		//} else isFiring = false;
 		
 		if (FlxG.keys.anyJustPressed( ["S"] )) {
 			
@@ -66,8 +52,4 @@ class Zion extends FlxSprite {
 	public function fire(): Void {
 		
 	}
-	
-	//override public function destroy():Void {
-		//super.destroy();
-	//}
 }
