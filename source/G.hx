@@ -20,5 +20,6 @@ class G {
 	public static var forceRate_multiplier: Float = 2;
 	
 	public static var bulletSpeed = 300;
-	public static var pilaSpeed = 300;
+	public static var pilaSpeed_initial = 300;
+	public static var pilaSpeed_upRate = 10;
 }

@@ -16,7 +16,6 @@ import flixel.system.scaleModes.RatioScaleMode;
 import G;
 
 using flixel.util.FlxSpriteUtil;
-//using flixel.util.LineStyle;
 
 /**
  * A FlxState which can be used for the actual gameplay.
@@ -27,8 +26,8 @@ class PlayState extends FlxState {
 	public var zion: Zion;
 	public var pila: Pila;
 	
-	public var hp_aino: Int = 2;
-	public var hp_zion: Int = 2;
+	public var hp_aino: Int = 5;
+	public var hp_zion: Int = 5;
 	public var ended: Bool = false;
 	
 	public static var bulletPool: BulletPool;
@@ -83,6 +82,7 @@ class PlayState extends FlxState {
 		
 		FlxG.watch.add(this, "hp_aino");
 		FlxG.watch.add(this, "hp_zion");
+		FlxG.watch.add(pila, "speed");
 	}
 
 	override public function update():Void {

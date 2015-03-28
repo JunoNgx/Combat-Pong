@@ -14,6 +14,8 @@ class Pila extends FlxSprite {
 	
 	private var dir_x: Int = 0;
 	private var dir_y: Int = 0;
+	
+	private var speed = G.pilaSpeed_initial;
 
 	public function new() {
 		super();
@@ -27,8 +29,8 @@ class Pila extends FlxSprite {
 	override public function update() {
 		super.update();
 		
-		this.velocity.x = dir_x * G.pilaSpeed;
-		this.velocity.y = dir_y * G.pilaSpeed;
+		this.velocity.x = dir_x * speed;
+		this.velocity.y = dir_y * speed;
 		
 		if (this.x < 0) collideLeft();
 		if (this.x > FlxG.width - this.width) collideRight();
@@ -46,12 +48,17 @@ class Pila extends FlxSprite {
 		} else dir_y = -1;
 	}
 	
+	// Due to usage of overlapping, speed will be upped
+	// several times for each collision
+	// As of now, observed to be 4 times
 	public function collideTop(): Void {
 		dir_y = 1;
+		this.speed += G.pilaSpeed_upRate;
 	}
 	
 	public function collideBottom(): Void {
 		dir_y = -1;
+		this.speed += G.pilaSpeed_upRate;
 	}
 	
 	public function collideRight(): Void {
@@ -68,5 +75,7 @@ class Pila extends FlxSprite {
 		
 		dir_x = 0;
 		dir_y = 0;
+		
+		speed = G.pilaSpeed_initial;
 	}
 }
