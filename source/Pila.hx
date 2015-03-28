@@ -19,8 +19,7 @@ class Pila extends FlxSprite {
 		super();
 		makeGraphic(8, 8, FlxColor.CRIMSON);
 		
-		this.x = FlxG.width / 2 - this.width/2;
-		this.y = FlxG.height / 2 - this.height/2;
+		reposition();
 		
 		//push();
 	}
@@ -33,8 +32,8 @@ class Pila extends FlxSprite {
 		
 		if (this.x < 0) collideLeft();
 		if (this.x > FlxG.width - this.width) collideRight();
-		if (this.y < 0) collideTop();
-		if (this.y > FlxG.height - this.height) collideBottom();
+		//if (this.y < 0) kill();
+		//if (this.y > FlxG.height - this.height) kill();
 	}
 	
 	public function push(timer:FlxTimer) {
@@ -61,5 +60,13 @@ class Pila extends FlxSprite {
 	
 	public function collideLeft(): Void {
 		dir_x = 1;
+	}
+	
+	public function reposition():Void {
+		this.x = FlxG.width / 2 - this.width/2;
+		this.y = FlxG.height / 2 - this.height / 2;
+		
+		dir_x = 0;
+		dir_y = 0;
 	}
 }

@@ -27,9 +27,18 @@ class Aino extends FlxSpriteGroup {
 
 	public function new() {
 		super();
-		this.x = FlxG.width / 2;
-		this.y = FlxG.height * 0.9 - G.padThickness/2;
 		this.maxSize = G.numOfPad;
+		
+		initiate();
+	}
+	
+	public function initiate(): Void {
+		this.x = FlxG.width / 2;
+		this.y = FlxG.height * 0.9 - G.padThickness / 2;
+		
+		this.forEach(function (pad:FlxSprite): Void {
+			remove(pad);
+		});
 		
 		for (i in 1...(G.numOfPad+1)) {
 			var pad = new FlxSprite(i);

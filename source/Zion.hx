@@ -27,10 +27,18 @@ class Zion extends FlxSpriteGroup {
 
 	public function new() {
 		super();
-		//makeGraphic(196, 8, FlxColor.FOREST_GREEN);
-		this.x = FlxG.width / 2;
-		this.y = FlxG.height * 0.1 + G.padThickness/2;
 		this.maxSize = G.numOfPad;
+		
+		initiate();
+	}
+	
+	public function initiate():Void {
+		this.x = FlxG.width / 2;
+		this.y = FlxG.height * 0.1 + G.padThickness / 2;
+		
+		this.forEach(function (pad:FlxSprite): Void {
+			remove(pad);
+		});
 		
 		for (i in 1...(G.numOfPad+1)) {
 			var pad = new FlxSprite(i);

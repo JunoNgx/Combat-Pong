@@ -7,7 +7,7 @@ package;
 class G {
 	public static var gameColor:Int = 0xFFFFE135;
 	
-	public static var margin_x: Int = 80;
+	public static var margin_x: Int = 60;
 	
 	public static var numOfPad: Int = 5;
 	public static var padThickness: Int = 8;

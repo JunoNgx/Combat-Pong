@@ -22,29 +22,17 @@ class UI extends FlxSprite {
 
 	public function new() {
 		super();
-
 		makeGraphic(FlxG.width, FlxG.height, FlxColor.TRANSPARENT, true);
-
-		// Draw the mid-line
+	}
+	
+	public function redraw(aino_hp: Int, zion_hp: Int): Void {
+		drawMidline();
+		drawAinoHP(aino_hp);
+		drawZionHP(zion_hp);
+	}
+	
+	public function drawMidline(): Void {
 		this.drawLine(0, FlxG.height / 2, FlxG.width, FlxG.height / 2, lineStyle);
-		
-		
-		
-		//UI = new FlxSprite();
-		//UI.makeGraphic(FlxG.width, FlxG.height, FlxColor.TRANSPARENT, true);
-		//add(UI);
-		//
-		////FlxSpriteUtil.drawCircle(UI, 100, 200, 10, FlxColor.RED);
-		//
-		//var lineStyle: LineStyle = { color: FlxColor.RED, thickness: 2 };
-		//var fillStyle: FillStyle = { color: FlxColor.RED, alpha: 0.5 };
-		//
-		//UI.drawCircle(500, 200, 50, 40, lineStyle, fillStyle);
-		//
-		//
-		//UI.drawLine(0, FlxG.height / 2, FlxG.width, FlxG.height / 2, lineStyle);
-		//UI.drawRect(40, 500, 512, 512, FlxColor.RED, lineStyle, fillStyle);
-		////UI.drawCircle(100, 200, 300);
 	}
 	
 	public function drawAinoHP(HP: Int) {

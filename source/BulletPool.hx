@@ -56,4 +56,10 @@ class BulletPool extends FlxSpriteGroup {
 			if (!bullet.isOnScreen()) bullet.kill();
 		});
 	}
+	
+	public function killAll(): Void {
+		this.forEachAlive(function(bullet:FlxSprite):Void {
+			bullet.kill();
+		});
+	}
 }

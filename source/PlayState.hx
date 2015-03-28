@@ -27,16 +27,21 @@ class PlayState extends FlxState {
 	public var zion: Zion;
 	public var pila: Pila;
 	
-	public var hp_aino: Int = 5;
-	public var hp_zion: Int = 5;
+	public var hp_aino: Int = 2;
+	public var hp_zion: Int = 2;
+	public var ended: Bool = false;
 	
 	public static var bulletPool: BulletPool;
-	public var timer_push: FlxTimer;
+	public var timer_pushBall: FlxTimer;
 	public var timer_reset: FlxTimer;
 	
 	public static var ui: UI;
 	
-	public static var text: FlxText;
+	public static var text_aino: FlxText;
+	public static var text_zion: FlxText;
+	
+	public static var str_win: String = "WON";
+	public static var str_lose: String = "LOST";
 	
 	public static var fillScale: FillScaleMode;
 	public static var ratioScale: RatioScaleMode;
@@ -55,56 +60,33 @@ class PlayState extends FlxState {
 #else
 		FlxG.scaleMode = ratioScale;
 #end
-
+		// System
 		bulletPool = new BulletPool();
-		add(bulletPool);
 		
+		//Entities
 		aino = new Aino();
 		zion = new Zion();
 		pila = new Pila();
 		ui = new UI();
 		
 		add(ui);
+		add(bulletPool);
 		add(aino);
 		add(zion);
 		add(pila);
 		
-		ui.drawAinoHP(hp_aino);
-		ui.drawZionHP(hp_zion);
+		//UI
+		ui.redraw(hp_aino, hp_zion);
 		
-		timer_push = new FlxTimer(1.5, pila.push);
+		// Setting time to initiate the first round
+		timer_pushBall = new FlxTimer(1.5, pila.push);
 		
-		trace(FlxG.width);
-		trace(FlxG.height);
-		
-		text = new FlxText(FlxG.width/2, FlxG.height/2 + 50, -1); // x, y, width
-		text.text = "Hallo";
-		text.setFormat("assets/fonts/boring.ttf", 40, FlxColor.WHITE, "left");
-		add(text);
-		//text.setBorderStyle(FlxText.BORDER_OUTLINE, FlxColor.RED, 1);
-		
-	}
-	
-	/**
-	 * Function that is called when this state is destroyed - you might want to 
-	 * consider setting all objects this state uses to null to help garbage collection.
-	 */
-	override public function destroy():Void {
-		super.destroy();
+		FlxG.watch.add(this, "hp_aino");
+		FlxG.watch.add(this, "hp_zion");
 	}
 
-	/**
-	 * Function that is called once every frame.
-	 */
 	override public function update():Void {
 		super.update();
-		
-		//Don't work, apparently. And they're funny, causing the paddle to slide.
-		//FlxG.collide(aino, pila);
-		//FlxG.collide(zion, pila);
-		
-		//if (aino.isFiring) bulletPool.fireBullet(true, aino.x);
-		//if (zion.isFiring) bulletPool.fireBullet(false, zion.x);
 		
 		FlxG.overlap(aino, pila, collideAino);
 		FlxG.overlap(zion, pila, collideZion);
@@ -113,6 +95,39 @@ class PlayState extends FlxState {
 		FlxG.overlap(bulletPool, zion, killAllHit);
 		
 		FlxG.overlap(bulletPool, bulletPool, killAllHit);
+		
+		// Check if any player fails to paddle
+		if (pila.y < 0) {
+			pila.kill();
+			pila.reposition();
+			timer_reset = new FlxTimer(1, resetGame);
+			hp_zion -= 1;
+		}
+		
+		if (pila.y > FlxG.height - pila.height) {
+			pila.kill();
+			pila.reposition();
+			timer_reset = new FlxTimer(1, resetGame);
+			hp_aino -= 1;
+		}
+		
+		// Reset the game upon ending
+		if (this.ended == true) {		
+#if (web || flash || desktop)
+			if (FlxG.keys.anyJustPressed(["ENTER", "ESCAPE", "SPACE"])) {
+				FlxG.switchState(new PlayState());
+			}
+#end
+
+#if mobile
+			//Don't know why FlxG.touches crashes the game
+			//Current workaround, and it works.
+			//if (FlxG.touches.getFirst().justPressed == true) {
+			if (FlxG.mouse.justPressed == true) {
+				FlxG.switchState(new PlayState());
+			}
+#end
+		}
 	}	
 	
 	private function collideAino(pad: FlxSprite, pila: Pila):Void {
@@ -129,12 +144,74 @@ class PlayState extends FlxState {
 	}
 	
 	
-	function resetGame(timer_push:FlxTimer):Void {
+	function resetGame(timer:FlxTimer):Void {
+		
+			ui.fill(FlxColor.TRANSPARENT);
+			ui.redraw(hp_aino, hp_zion);
+			bulletPool.killAll();
+		
+#if mobile
+			FlxG.touches.reset();
+#end
 
-		
-		
+		if (hp_aino > 0 && hp_zion > 0) {
+			pila.revive();
+			pila.reposition();
+			aino.initiate();
+			zion.initiate();
+
+			timer_pushBall.reset();
+		} else {
+			remove(zion);
+			remove(aino);
+			setupResultText();
+			
+			if (hp_aino == 0) {
+				text_aino.text = str_lose;
+			}
+			
+			if (hp_zion == 0) {
+				text_zion.text = str_lose;
+			}
+			
+			add(text_zion);
+			add(text_aino);
+			
+			ended = true;
+		}
 	}
-	//private function zionHit(zion: Zion, bullet:BulletPool):Void {
-		//
-	//}
+	
+	function setupResultText():Void {
+		text_aino = new FlxText(FlxG.width/2 - 100, FlxG.height/2 + 100, 200);
+		text_aino.text = str_win;
+		text_aino.setFormat("assets/fonts/boring.ttf", 50, FlxColor.WHITE, "center");
+		
+		text_zion = new FlxText(FlxG.width/2 - 100, FlxG.height/2 - 180, 200);
+		text_zion.text = str_win;
+		text_zion.setFormat("assets/fonts/boring.ttf", 50, FlxColor.WHITE, "center");
+		text_zion.angle = -180;
+	}
+	
+	override public function destroy():Void {
+		aino.destroy();
+		aino = null;
+		zion.destroy();
+		zion = null;
+		pila.destroy();
+		pila = null;
+		bulletPool.destroy();
+		bulletPool = null;
+		ui.destroy();
+		ui = null;
+		
+		text_aino.destroy();
+		text_aino = null;
+		text_zion.destroy();
+		text_zion = null;
+		
+		timer_pushBall = null;
+		timer_reset = null;
+		
+		super.destroy();
+	}
 }
