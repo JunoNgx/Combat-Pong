@@ -15,6 +15,8 @@ class Pila extends FlxSprite {
 	private var dir_x: Int = 0;
 	private var dir_y: Int = 0;
 	
+	public var menu_mode: Bool = false;
+	
 	private var speed = G.pilaSpeed_initial;
 
 	public function new() {
@@ -34,8 +36,11 @@ class Pila extends FlxSprite {
 		
 		if (this.x < 0) collideLeft();
 		if (this.x > FlxG.width - this.width) collideRight();
-		//if (this.y < 0) kill();
-		//if (this.y > FlxG.height - this.height) kill();
+		
+		if (menu_mode) {
+			if (this.y < 0) collideTop();
+			if (this.y > FlxG.height - this.height) collideBottom();
+		}
 	}
 	
 	public function push(timer:FlxTimer) {

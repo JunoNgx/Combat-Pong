@@ -115,7 +115,7 @@ class PlayState extends FlxState {
 		if (this.ended == true) {		
 #if (web || flash || desktop)
 			if (FlxG.keys.anyJustPressed(["ENTER", "ESCAPE", "SPACE"])) {
-				FlxG.switchState(new PlayState());
+				FlxG.switchState(new MenuState());
 			}
 #end
 
@@ -124,7 +124,7 @@ class PlayState extends FlxState {
 			//Current workaround, and it works.
 			//if (FlxG.touches.getFirst().justPressed == true) {
 			if (FlxG.mouse.justPressed == true) {
-				FlxG.switchState(new PlayState());
+				FlxG.switchState(new MenuState());
 			}
 #end
 		}
