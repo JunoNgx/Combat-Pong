@@ -137,4 +137,11 @@ class Zion extends FlxSpriteGroup {
 	public function fire():Void {
 		PlayState.bulletPool.fireBullet(false, this.x, forceRate);
 	}
+	
+#if mobile
+	public function resetTouch(): Void {
+		touchID = -1;
+		touchID2 = -1;
+	}
+#end
 }

@@ -151,6 +151,8 @@ class PlayState extends FlxState {
 			bulletPool.killAll();
 		
 #if mobile
+			aino.resetTouch();
+			zion.resetTouch();
 			FlxG.touches.reset();
 #end
 
