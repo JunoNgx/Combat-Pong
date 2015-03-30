@@ -88,11 +88,11 @@ class PlayState extends FlxState {
 	override public function update():Void {
 		super.update();
 		
-		FlxG.overlap(aino, pila, collideAino);
-		FlxG.overlap(zion, pila, collideZion);
+		FlxG.collide(aino, pila, collideAino);
+		FlxG.collide(zion, pila, collideZion);
 		
-		FlxG.overlap(bulletPool, aino, killAllHit);
-		FlxG.overlap(bulletPool, zion, killAllHit);
+		FlxG.collide(bulletPool, aino, killAllHit);
+		FlxG.collide(bulletPool, zion, killAllHit);
 		
 		FlxG.overlap(bulletPool, bulletPool, killAllHit);
 		
@@ -137,6 +137,11 @@ class PlayState extends FlxState {
 	private function collideZion(pad: FlxSprite, pila: Pila):Void {
 		pila.collideTop();
 	}
+	
+	//private function pushObjects(Obj1: FlxSprite, Obj2:FlxSprite):Void {
+		////Obj1.kill();
+		////Obj2.kill();
+	//}
 	
 	private function killAllHit(Obj1: FlxSprite, Obj2:FlxSprite):Void {
 		Obj1.kill();

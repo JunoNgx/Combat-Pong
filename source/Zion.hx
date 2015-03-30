@@ -44,6 +44,7 @@ class Zion extends FlxSpriteGroup {
 			var pad = new FlxSprite(i);
 			pad.makeGraphic(G.padLength, G.padThickness, G.gameColor);
 			pad.ID = i;
+			pad.immovable = true;
 			this.add(pad);
 		}
 	}

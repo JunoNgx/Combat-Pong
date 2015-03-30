@@ -6,6 +6,9 @@ import flixel.FlxG;
 
 import flixel.util.FlxTimer;
 
+using flixel.util.FlxSpriteUtil;
+import flixel.util.FlxPoint;
+
 /**
  * ...
  * @author Juno Nguyen
@@ -21,7 +24,23 @@ class Pila extends FlxSprite {
 
 	public function new() {
 		super();
-		makeGraphic(8, 8, FlxColor.CRIMSON);
+		//Origintal prototype graphic
+		//makeGraphic(8, 8, FlxColor.CRIMSON);
+		
+		//Alternate circle shape
+		//makeGraphic(16, 16, FlxColor.TRANSPARENT, true );
+		//drawCircle(x + width / 2, y + height / 2, width / 2, FlxColor.CRIMSON);
+
+		//An equaliteral rhombus
+		makeGraphic(16, 16, FlxColor.TRANSPARENT, true );
+				
+		var vertices = new Array<FlxPoint>();
+		vertices[0] = new FlxPoint(width/2, 0);
+		vertices[1] = new FlxPoint(width, height/2);
+		vertices[2] = new FlxPoint(width/2, height);
+		vertices[3] = new FlxPoint(0, height/2) ;		
+		
+		drawPolygon(vertices, FlxColor.CRIMSON);
 		
 		reposition();
 		
@@ -58,12 +77,13 @@ class Pila extends FlxSprite {
 	// As of now, observed to be 4 times
 	public function collideTop(): Void {
 		dir_y = 1;
-		this.speed += G.pilaSpeed_upRate;
+		if (!menu_mode) this.speed += G.pilaSpeed_upRate;
 	}
 	
 	public function collideBottom(): Void {
 		dir_y = -1;
-		this.speed += G.pilaSpeed_upRate;
+		if (!menu_mode) this.speed += G.pilaSpeed_upRate;
+		
 	}
 	
 	public function collideRight(): Void {
