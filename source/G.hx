@@ -22,4 +22,15 @@ class G {
 	public static var bulletSpeed = 300;
 	public static var pilaSpeed_initial = 300;
 	public static var pilaSpeed_upRate = 10;
+	
+	//explosion
+	public static var exp_number_min = 1;
+	public static var exp_number_max = 3;
+	public static var exp_default_size = 48;
+	public static var exp_scale_min = 0.7;
+	public static var exp_scale_max = 1.2;
+	public static var exp_max_pos_vari = 20;
+	public static var exp_timediff_min = 0.02;
+	public static var exp_timediff_max = 0.05;
+	
 }

@@ -31,6 +31,7 @@ class PlayState extends FlxState {
 	public var ended: Bool = false;
 	
 	public static var bulletPool: BulletPool;
+	public static var expPool: ExplosionPool;
 	public var timer_pushBall: FlxTimer;
 	public var timer_reset: FlxTimer;
 	
@@ -61,6 +62,7 @@ class PlayState extends FlxState {
 #end
 		// System
 		bulletPool = new BulletPool();
+		expPool = new ExplosionPool();
 		
 		//Entities
 		aino = new Aino();
@@ -73,6 +75,10 @@ class PlayState extends FlxState {
 		add(aino);
 		add(zion);
 		add(pila);
+		add(expPool);
+		
+		//var exp:Explosion = new Explosion();
+		//add(exp);
 		
 		//UI
 		ui.redraw(hp_aino, hp_zion);
@@ -83,6 +89,7 @@ class PlayState extends FlxState {
 		FlxG.watch.add(this, "hp_aino");
 		FlxG.watch.add(this, "hp_zion");
 		FlxG.watch.add(pila, "speed");
+		FlxG.debugger.track(expPool);
 	}
 
 	override public function update():Void {
@@ -91,25 +98,25 @@ class PlayState extends FlxState {
 		FlxG.collide(aino, pila, collideAino);
 		FlxG.collide(zion, pila, collideZion);
 		
-		FlxG.collide(bulletPool, aino, killAllHit);
-		FlxG.collide(bulletPool, zion, killAllHit);
+		FlxG.collide(bulletPool, aino, hitShake);
+		FlxG.collide(bulletPool, zion, hitShake);
 		
 		FlxG.overlap(bulletPool, bulletPool, killAllHit);
 		
 		// Check if any player fails to paddle
-		if (pila.y < 0) {
-			pila.kill();
-			pila.reposition();
-			timer_reset = new FlxTimer(1, resetGame);
-			hp_zion -= 1;
-		}
-		
-		if (pila.y > FlxG.height - pila.height) {
-			pila.kill();
-			pila.reposition();
-			timer_reset = new FlxTimer(1, resetGame);
-			hp_aino -= 1;
-		}
+		//if (pila.y < 0) {
+			//pila.kill();
+			//pila.reposition();
+			//timer_reset = new FlxTimer(1, resetGame);
+			//hp_zion -= 1;
+		//}
+		//
+		//if (pila.y > FlxG.height - pila.height) {
+			//pila.kill();
+			//pila.reposition();
+			//timer_reset = new FlxTimer(1, resetGame);
+			//hp_aino -= 1;
+		//}
 		
 		// Reset the game upon ending
 		if (this.ended == true) {		
@@ -144,6 +151,16 @@ class PlayState extends FlxState {
 	//}
 	
 	private function killAllHit(Obj1: FlxSprite, Obj2:FlxSprite):Void {
+		expPool.explode(Obj1.x, Obj1.y);
+		expPool.explode(Obj2.x, Obj2.y);
+		Obj1.kill();
+		Obj2.kill();
+	}
+	
+	private function hitShake(Obj1: FlxSprite, Obj2:FlxSprite):Void {
+		expPool.explode(Obj1.x, Obj1.y);
+		expPool.explode(Obj2.x, Obj2.y);
+		FlxG.camera.shake(0.01, 0.5);
 		Obj1.kill();
 		Obj2.kill();
 	}
@@ -154,6 +171,7 @@ class PlayState extends FlxState {
 			ui.fill(FlxColor.TRANSPARENT);
 			ui.redraw(hp_aino, hp_zion);
 			bulletPool.killAll();
+			//expPool.killAll();
 		
 #if mobile
 			aino.resetTouch();
@@ -208,6 +226,8 @@ class PlayState extends FlxState {
 		pila = null;
 		bulletPool.destroy();
 		bulletPool = null;
+		//expPool.destroy();
+		//expPool = null;
 		ui.destroy();
 		ui = null;
 		

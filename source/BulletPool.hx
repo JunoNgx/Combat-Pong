@@ -29,7 +29,7 @@ class BulletPool extends FlxSpriteGroup {
 	
 	public function fireBullet( fromAino:Bool, X:Float, forceRate:Float ) {
 		var bullet = this.getFirstDead();
-		if (bullet == null) bullet = createBullet();
+		if (bullet == null) bullet = createEntity();
 		
 		if (fromAino) {
 			bullet.y = FlxG.height * 0.9 - bullet.height - distFromCtrl;
@@ -43,7 +43,7 @@ class BulletPool extends FlxSpriteGroup {
 		bullet.revive();
 	}
 	
-	public function createBullet() {
+	public function createEntity() {
 		var bullet:FlxSprite = new FlxSprite();
 		bullet.makeGraphic(8, 24, FlxColor.CRIMSON);
 		this.add(bullet);
