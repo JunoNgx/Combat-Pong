@@ -32,6 +32,7 @@ class PlayState extends FlxState {
 	
 	public static var bulletPool: BulletPool;
 	public static var expPool: ExplosionPool;
+	public static var impactPool: ImpactPool;
 	public var timer_pushBall: FlxTimer;
 	public var timer_reset: FlxTimer;
 	
@@ -63,6 +64,7 @@ class PlayState extends FlxState {
 		// System
 		bulletPool = new BulletPool();
 		expPool = new ExplosionPool();
+		impactPool = new ImpactPool();
 		
 		//Entities
 		aino = new Aino();
@@ -76,9 +78,16 @@ class PlayState extends FlxState {
 		add(zion);
 		add(pila);
 		add(expPool);
+		add(impactPool);
 		
-		//var exp:Explosion = new Explosion();
-		//add(exp);
+		var exp:Impact = new Impact();
+		add(exp);
+		exp.initiate();
+		
+		//for (i in 0...10) {
+			//impactPool.spawnSingleEntity(i * 100, i * 50);
+		//}
+		
 		
 		//UI
 		ui.redraw(hp_aino, hp_zion);
@@ -89,7 +98,8 @@ class PlayState extends FlxState {
 		FlxG.watch.add(this, "hp_aino");
 		FlxG.watch.add(this, "hp_zion");
 		FlxG.watch.add(pila, "speed");
-		FlxG.debugger.track(expPool);
+		//FlxG.debugger.track(expPool);
+		FlxG.debugger.track(exp);
 	}
 
 	override public function update():Void {
@@ -118,6 +128,10 @@ class PlayState extends FlxState {
 			//hp_aino -= 1;
 		//}
 		
+		//Spawn impacts
+		if (pila.x < 0) impactPool.spawnSingleEntity(pila.x, pila.y + pila.height/2);
+		if (pila.x > FlxG.width - pila.width) impactPool.spawnSingleEntity(pila.x + pila.height, pila.y + pila.height/2);
+		
 		// Reset the game upon ending
 		if (this.ended == true) {		
 #if (web || flash || desktop)
@@ -139,10 +153,14 @@ class PlayState extends FlxState {
 	
 	private function collideAino(pad: FlxSprite, pila: Pila):Void {
 		pila.collideBottom();
+		impactPool.spawnSingleEntity(pila.x + pila.width/2, pila.y + pila.height/2);
+		
 	}
 	
 	private function collideZion(pad: FlxSprite, pila: Pila):Void {
 		pila.collideTop();
+		impactPool.spawnSingleEntity(pila.x + pila.width/2, pila.y);
+		
 	}
 	
 	//private function pushObjects(Obj1: FlxSprite, Obj2:FlxSprite):Void {
@@ -171,7 +189,8 @@ class PlayState extends FlxState {
 			ui.fill(FlxColor.TRANSPARENT);
 			ui.redraw(hp_aino, hp_zion);
 			bulletPool.killAll();
-			//expPool.killAll();
+			expPool.killAll();
+			impactPool.killAll();
 		
 #if mobile
 			aino.resetTouch();
@@ -226,8 +245,10 @@ class PlayState extends FlxState {
 		pila = null;
 		bulletPool.destroy();
 		bulletPool = null;
-		//expPool.destroy();
-		//expPool = null;
+		expPool.destroy();
+		expPool = null;		
+		impactPool.destroy();
+		impactPool = null;
 		ui.destroy();
 		ui = null;
 		

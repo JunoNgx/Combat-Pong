@@ -36,4 +36,6 @@ class G {
 	
 	public static var bullet_width = 12;
 	public static var bullet_height = 24;
+	
+	public static var impact_lifetime = 0.7;
 }

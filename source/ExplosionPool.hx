@@ -19,7 +19,7 @@ class ExplosionPool extends FlxTypedSpriteGroup<Explosion> {
 		
 		this.maxSize = 200;
 		
-		for (i in 1...20) {
+		for (i in 1...50) {
 			var entity = new Explosion();
 			entity.kill();
 			this.add(entity);
@@ -80,10 +80,10 @@ class ExplosionPool extends FlxTypedSpriteGroup<Explosion> {
 		//return entity;
 	//}
 	
-	//public function killAll(): Void {
-		//this.forEachAlive(function(entity:Explosion):Void {
-			//entity.kill();
-		//});
-	//}
+	public function killAll(): Void {
+		this.forEachAlive(function(entity:Explosion):Void {
+			entity.kill();
+		});
+	}
 	
 }

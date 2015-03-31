@@ -12,8 +12,6 @@ using flixel.util.FlxSpriteUtil;
  * @author Juno Nguyen
  */
 class Explosion extends FlxSprite {
-	
-	//var tweener:FlxTween;
 
 	public function new() {
 		super();
@@ -31,35 +29,13 @@ class Explosion extends FlxSprite {
 		vertices[2] = new FlxPoint(size/2, size);
 		vertices[3] = new FlxPoint(0, size / 2) ;
 		drawPolygon(vertices, FlxColor.WHITE);
-		
-		//alpha = 0;
-		
+
 		revive();
-		//FlxTween.tween(this, { alpha: 1 }, 0.05, { complete:
-				//function(tween:FlxTween) {
-					//FlxTween.tween(this, { alpha: 0 }, 0.2, { complete: function(tween:FlxTween) { this.kill(); }} );
-				//}
-		//});		
-		
+
 		FlxTween.tween(this.scale, { x: 1.5, y: 1.5 }, 0.05, { complete:
 				function(tween:FlxTween) {
-					FlxTween.tween(this.scale, {  x: 0.1, y: 0.1 }, 0.2, { complete: function(tween:FlxTween) { this.kill(); }} );
+					FlxTween.tween(this.scale, { x: 0.1, y: 0.1 }, 0.2, { complete: function(tween:FlxTween) { this.kill(); }} );
 				}
 		});
 	}
-	
-	//override function kill(tween:FlxTween) {
-		//super.kill();
-	//}
-	
-	//public function spawn(X: Float, Y: Float) {
-		//x = X - width/2;
-		//y = Y - height / 2;
-		
-		//fadeIn(0.1, false);
-	//}
-	
-	//public function fadeOutCust() {
-		//fadeOut(0.4, true, function():Void { kill(); } );
-	//}
 }

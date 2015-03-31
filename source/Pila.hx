@@ -38,7 +38,7 @@ class Pila extends FlxSprite {
 		vertices[0] = new FlxPoint(width/2, 0);
 		vertices[1] = new FlxPoint(width, height/2);
 		vertices[2] = new FlxPoint(width/2, height);
-		vertices[3] = new FlxPoint(0, height/2) ;		
+		vertices[3] = new FlxPoint(0, height/2);		
 		
 		drawPolygon(vertices, FlxColor.CRIMSON);
 		
