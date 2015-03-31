@@ -4,9 +4,11 @@ import flixel.FlxSprite;
 import flixel.util.FlxColor;
 import flixel.FlxG;
 import flixel.group.FlxSpriteGroup;
+import flixel.util.FlxPoint;
 
 import G;
 
+using flixel.util.FlxSpriteUtil;
 /**
  * ...
  * @author Juno Nguyen
@@ -17,6 +19,8 @@ class Aino extends FlxSpriteGroup {
 	var input_rt: Bool;
 	
 	var forceRate: Float;
+	static var core:FlxSprite;
+	
 #if mobile
 	var touchID: Int = -1;
 	var touchID2: Int = -1;
@@ -29,6 +33,15 @@ class Aino extends FlxSpriteGroup {
 		super();
 		this.maxSize = G.numOfPad;
 		
+		core = new FlxSprite();
+		core.makeGraphic(25, 25, FlxColor.TRANSPARENT, true);
+		var vertices = new Array<FlxPoint>();
+		vertices[0] = new FlxPoint(core.width/2, 0);
+		vertices[1] = new FlxPoint(core.width/2 + forceRate * G.player_core_multiplier, core.height/2);
+		vertices[2] = new FlxPoint(core.width/2, height);
+		vertices[3] = new FlxPoint(core.width/2 - forceRate * G.player_core_multiplier, core.height/2);
+		
+		core.drawPolygon(vertices, FlxColor.CRIMSON);
 		initiate();
 	}
 	

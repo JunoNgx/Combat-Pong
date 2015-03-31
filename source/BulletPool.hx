@@ -4,8 +4,11 @@ import flixel.FlxSprite;
 import flixel.group.FlxSpriteGroup;
 import flixel.util.FlxColor;
 import flixel.FlxG;
+import flixel.util.FlxPoint;
 
 import G;
+
+using flixel.util.FlxSpriteUtil;
 
 /**
  * ...
@@ -45,7 +48,17 @@ class BulletPool extends FlxSpriteGroup {
 	
 	public function createEntity() {
 		var bullet:FlxSprite = new FlxSprite();
-		bullet.makeGraphic(8, 24, FlxColor.CRIMSON);
+		//bullet.makeGraphic(8, 24, FlxColor.CRIMSON);
+		bullet.makeGraphic(G.bullet_width, G.bullet_height, FlxColor.TRANSPARENT, true);
+		
+		var vertices = new Array<FlxPoint>();
+		vertices[0] = new FlxPoint(bullet.width/2, 0);
+		vertices[1] = new FlxPoint(bullet.width, bullet.height * 0.7);
+		vertices[2] = new FlxPoint(bullet.width/2, bullet.height);
+		vertices[3] = new FlxPoint(0, bullet.height * 0.7);		
+		
+		bullet.drawPolygon(vertices, FlxColor.CRIMSON);
+		//bullet.drawRect(bullet.x, bullet.y, bullet.width, bullet.height, FlxColor.CRIMSON);
 		this.add(bullet);
 		
 		return bullet;

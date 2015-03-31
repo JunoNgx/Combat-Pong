@@ -26,18 +26,24 @@ class Explosion extends FlxSprite {
 		makeGraphic(size, size, FlxColor.TRANSPARENT, true);
 		
 		var vertices = new Array<FlxPoint>();
-		vertices[0] = new FlxPoint(width/2, 0);
-		vertices[1] = new FlxPoint(width, height/2);
-		vertices[2] = new FlxPoint(width/2, height);
-		vertices[3] = new FlxPoint(0, height / 2) ;
+		vertices[0] = new FlxPoint(size/2, 0);
+		vertices[1] = new FlxPoint(size, size/2);
+		vertices[2] = new FlxPoint(size/2, size);
+		vertices[3] = new FlxPoint(0, size / 2) ;
 		drawPolygon(vertices, FlxColor.WHITE);
 		
-		alpha = 0;
+		//alpha = 0;
 		
 		revive();
-		FlxTween.tween(this, { alpha: 1 }, 0.05, { complete:
+		//FlxTween.tween(this, { alpha: 1 }, 0.05, { complete:
+				//function(tween:FlxTween) {
+					//FlxTween.tween(this, { alpha: 0 }, 0.2, { complete: function(tween:FlxTween) { this.kill(); }} );
+				//}
+		//});		
+		
+		FlxTween.tween(this.scale, { x: 1.5, y: 1.5 }, 0.05, { complete:
 				function(tween:FlxTween) {
-					FlxTween.tween(this, { alpha: 0 }, 0.2, { complete: function(tween:FlxTween) { this.kill(); }} );
+					FlxTween.tween(this.scale, {  x: 0.1, y: 0.1 }, 0.2, { complete: function(tween:FlxTween) { this.kill(); }} );
 				}
 		});
 	}
