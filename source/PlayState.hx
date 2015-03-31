@@ -8,6 +8,7 @@ import flixel.FlxSprite;
 import flixel.text.FlxText;
 import flixel.util.FlxMath;
 import flixel.util.FlxColor;
+import flixel.addons.effects.FlxTrail;
 
 import flixel.util.FlxTimer;
 import flixel.system.scaleModes.FillScaleMode;
@@ -25,6 +26,7 @@ class PlayState extends FlxState {
 	public var aino: Aino;
 	public var zion: Zion;
 	public var pila: Pila;
+	public var pila_trail: FlxTrail;
 	
 	public var hp_aino: Int = 5;
 	public var hp_zion: Int = 5;
@@ -70,6 +72,7 @@ class PlayState extends FlxState {
 		aino = new Aino();
 		zion = new Zion();
 		pila = new Pila();
+		pila_trail = new FlxTrail(pila);
 		ui = new UI();
 		
 		add(ui);
@@ -77,6 +80,7 @@ class PlayState extends FlxState {
 		add(aino);
 		add(zion);
 		add(pila);
+		add(pila_trail);
 		add(expPool);
 		add(impactPool);
 		
@@ -202,7 +206,8 @@ class PlayState extends FlxState {
 
 		if (hp_aino > 0 && hp_zion > 0) {
 			pila.revive();
-			pila.reposition();
+			//pila.reposition();
+			pila_trail.resetTrail();
 			aino.initiate();
 			zion.initiate();
 
@@ -245,6 +250,8 @@ class PlayState extends FlxState {
 		zion = null;
 		pila.destroy();
 		pila = null;
+		pila_trail.destroy();
+		pila_trail = null;
 		bulletPool.destroy();
 		bulletPool = null;
 		expPool.destroy();
