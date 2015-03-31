@@ -28,12 +28,12 @@ class ImpactPool extends FlxTypedSpriteGroup<Impact> {
 		super.update();
 	}
 	
-	public function spawnSingleEntity(X: Float, Y: Float) {
+	public function spawnSingleEntity(X: Float, Y: Float, targetScale: Float) {
 		var entity = this.getFirstDead();
 			
 		entity.x = X - entity.width/2;
 		entity.y = Y - entity.height/2;
-		entity.initiate();
+		entity.initiate(targetScale);
 	}
 	
 	public function killAll(): Void {

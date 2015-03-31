@@ -80,9 +80,9 @@ class PlayState extends FlxState {
 		add(expPool);
 		add(impactPool);
 		
-		var exp:Impact = new Impact();
-		add(exp);
-		exp.initiate();
+		//var exp:Impact = new Impact();
+		//add(exp);
+		//exp.initiate();
 		
 		//for (i in 0...10) {
 			//impactPool.spawnSingleEntity(i * 100, i * 50);
@@ -99,7 +99,7 @@ class PlayState extends FlxState {
 		FlxG.watch.add(this, "hp_zion");
 		FlxG.watch.add(pila, "speed");
 		//FlxG.debugger.track(expPool);
-		FlxG.debugger.track(exp);
+		//FlxG.debugger.track(exp);
 	}
 
 	override public function update():Void {
@@ -114,23 +114,25 @@ class PlayState extends FlxState {
 		FlxG.overlap(bulletPool, bulletPool, killAllHit);
 		
 		// Check if any player fails to paddle
-		//if (pila.y < 0) {
-			//pila.kill();
-			//pila.reposition();
-			//timer_reset = new FlxTimer(1, resetGame);
-			//hp_zion -= 1;
-		//}
-		//
-		//if (pila.y > FlxG.height - pila.height) {
-			//pila.kill();
-			//pila.reposition();
-			//timer_reset = new FlxTimer(1, resetGame);
-			//hp_aino -= 1;
-		//}
+		if (pila.y < 0) {
+			impactPool.spawnSingleEntity(pila.x + pila.width/2, pila.y + pila.height/2, G.impact_scale_large);
+			pila.kill();
+			pila.reposition();
+			timer_reset = new FlxTimer(1, resetGame);
+			hp_zion -= 1;
+		}
+		
+		if (pila.y > FlxG.height - pila.height) {
+			impactPool.spawnSingleEntity(pila.x + pila.width/2, pila.y + pila.height/2, G.impact_scale_large);
+			pila.kill();
+			pila.reposition();
+			timer_reset = new FlxTimer(1, resetGame);
+			hp_aino -= 1;
+		}
 		
 		//Spawn impacts
-		if (pila.x < 0) impactPool.spawnSingleEntity(pila.x, pila.y + pila.height/2);
-		if (pila.x > FlxG.width - pila.width) impactPool.spawnSingleEntity(pila.x + pila.height, pila.y + pila.height/2);
+		if (pila.x < 0) impactPool.spawnSingleEntity(pila.x, pila.y + pila.height/2, G.impact_scale_small);
+		if (pila.x > FlxG.width - pila.width) impactPool.spawnSingleEntity(pila.x + pila.height, pila.y + pila.height/2, G.impact_scale_small);
 		
 		// Reset the game upon ending
 		if (this.ended == true) {		
@@ -153,13 +155,13 @@ class PlayState extends FlxState {
 	
 	private function collideAino(pad: FlxSprite, pila: Pila):Void {
 		pila.collideBottom();
-		impactPool.spawnSingleEntity(pila.x + pila.width/2, pila.y + pila.height/2);
+		impactPool.spawnSingleEntity(pila.x + pila.width/2, pila.y + pila.height/2, G.impact_scale_small);
 		
 	}
 	
 	private function collideZion(pad: FlxSprite, pila: Pila):Void {
 		pila.collideTop();
-		impactPool.spawnSingleEntity(pila.x + pila.width/2, pila.y);
+		impactPool.spawnSingleEntity(pila.x + pila.width/2, pila.y, G.impact_scale_small);
 		
 	}
 	

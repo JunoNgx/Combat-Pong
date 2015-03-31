@@ -15,7 +15,7 @@ class Impact extends FlxSprite {
 	public function new() {
 		super();
 		
-		makeGraphic(128, 128, FlxColor.TRANSPARENT, true);
+		makeGraphic(512, 512, FlxColor.TRANSPARENT, true);
 		
 		var vertices = new Array<FlxPoint>();
 		vertices[0] = new FlxPoint(width/2, 0);
@@ -24,13 +24,17 @@ class Impact extends FlxSprite {
 		vertices[3] = new FlxPoint(0, height / 2);
 
 		drawPolygon(vertices, FlxColor.TRANSPARENT,
-			{ color: FlxColor.WHITE, thickness: 1 }, { color: FlxColor.TRANSPARENT, alpha: 0 } );
+			{ color: FlxColor.WHITE, thickness: 5 });
 	}
 	
-	public function initiate(): Void {
+	public function initiate(targetScale: Float): Void {
 		revive();
+		
+		this.scale.x = 0.1;
+		this.scale.y = 0.1;
+		this.alpha = 1;
 
-		FlxTween.tween(this.scale, { x: 5, y: 5 }, G.impact_lifetime);
+		FlxTween.tween(this.scale, { x: targetScale, y: targetScale }, G.impact_lifetime);
 		FlxTween.tween(this, { alpha: 0 }, G.impact_lifetime, { complete: function(tween:FlxTween) {
 				this.kill();
 			}

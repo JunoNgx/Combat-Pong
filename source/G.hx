@@ -38,4 +38,6 @@ class G {
 	public static var bullet_height = 24;
 	
 	public static var impact_lifetime = 0.7;
+	public static var impact_scale_small = 0.5;
+	public static var impact_scale_large = 1;
 }
