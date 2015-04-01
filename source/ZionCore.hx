@@ -27,7 +27,7 @@ class ZionCore extends FlxSprite {
 	
 	public function sync(zion: Zion) {
 		this.x = zion.x - this.width/2;
-		this.y = zion.y - this.height/2;
+		this.y = zion.y - this.height/2 + G.padThickness;
 		
 		scale.x = zion.forceRate / G.forceRate_max;
 		

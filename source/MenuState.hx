@@ -10,6 +10,8 @@ import flixel.util.FlxMath;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 
+import flixel.system.scaleModes.FillScaleMode;
+import flixel.system.scaleModes.RatioScaleMode;
 
 class MenuState extends FlxState {
 	
@@ -27,13 +29,25 @@ class MenuState extends FlxState {
 	var pila_trail: FlxTrail;
 	
 	var font_default: String = "assets/fonts/quer.ttf";
-	var font_size_upper: Int = 20;
-	var font_size_tutorial: Int = 20;
+	var font_size_upper: Int = 17;
+	var font_size_tutorial: Int = 17;
+	
+	public static var fillScale: FillScaleMode;
+	public static var ratioScale: RatioScaleMode;
 	
 	override public function create():Void {
 		super.create();
 		
 		this.bgColor = 0xFF202020;
+		
+		ratioScale = new RatioScaleMode();
+		fillScale = new FillScaleMode();
+#if mobile
+		FlxG.scaleMode = fillScale;
+#else
+		FlxG.scaleMode = ratioScale;
+#end
+		
 		pila = new Pila();
 		pila_trail = new FlxTrail(pila);
 		pila.menu_mode = true;
@@ -41,11 +55,11 @@ class MenuState extends FlxState {
 		add(pila_trail);
 		pila.push(new FlxTimer(0));
 		
-		text_title = new FlxText(0, FlxG.height * 0.25, FlxG.width, "PONGCERTO");
+		text_title = new FlxText(0, FlxG.height * 0.20, FlxG.width, "PONGCERTO");
 		text_title.setFormat(font_default, 60, FlxColor.WHITE, "center");
 		add(text_title);		
 		
-		text_subtitle = new FlxText(0, FlxG.height * 0.32, FlxG.width, "a less sporty pong");
+		text_subtitle = new FlxText(0, FlxG.height * 0.27, FlxG.width, "a less sporty pong");
 		text_subtitle.setFormat(font_default, 24, FlxColor.WHITE, "center");
 		add(text_subtitle);
 		
@@ -67,11 +81,11 @@ class MenuState extends FlxState {
 		add(text_play);
 		
 		
-		text_control = new FlxText(0, FlxG.height * 0.7, FlxG.width);
+		text_control = new FlxText(0, FlxG.height * 0.65, FlxG.width);
 #if mobile
-		text_control.text = "(find someone to play with) \n for each half of the screen \n\n touch and drag to move \n\n with another finger long press and release \n to fire";
+		text_control.text = "(find someone to play with) \n\n for each half of the screen: \n\n touch and drag to move \n\n with another finger long press \n and release to fire \n\n (hold longer for deadlier assailment)";
 #else
-		text_control.text = "(find someone to play with) \n\n (a) // (d) // (left) // (right) to move \n\n hold down (s) // (down) for a while \n and release to shoot";
+		text_control.text = "(find someone to play with) \n\n (a) // (d) // (left) // (right) to move \n\n hold down (s) // (down) for a while \n and release to shoot \n\n (hold longer for deadlier assailment)";
 #end
 		text_control.setFormat(font_default, font_size_tutorial, FlxColor.WHITE, "center");
 		add(text_control);

@@ -57,7 +57,7 @@ class PlayState extends FlxState {
 		super.create();
 		
 		this.bgColor = 0xFF202020;
-
+		
 		ratioScale = new RatioScaleMode();
 		fillScale = new FillScaleMode();
 #if mobile
@@ -134,6 +134,7 @@ class PlayState extends FlxState {
 			pila.reposition();
 			timer_reset = new FlxTimer(1, resetGame);
 			hp_zion -= 1;
+			FlxG.camera.shake(0.01, 0.5);
 		}
 		
 		if (pila.y > FlxG.height - pila.height) {
@@ -142,6 +143,7 @@ class PlayState extends FlxState {
 			pila.reposition();
 			timer_reset = new FlxTimer(1, resetGame);
 			hp_aino -= 1;
+			FlxG.camera.shake(0.01, 0.5);
 		}
 		
 		//Spawn impacts and resolve collision

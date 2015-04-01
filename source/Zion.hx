@@ -47,6 +47,8 @@ class Zion extends FlxSpriteGroup {
 			pad.immovable = true;
 			this.add(pad);
 		}
+		
+		forceRate = 0;
 	}
 	
 	override public function update(): Void {
