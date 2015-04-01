@@ -1,5 +1,6 @@
 package;
 
+import flixel.addons.effects.FlxTrail;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
@@ -22,14 +23,17 @@ class MenuState extends FlxState {
 	var text_copyright: FlxText;
 	
 	var pila:Pila;
+	var pila_trail: FlxTrail;
 	
 	override public function create():Void {
 		super.create();
 		
 		this.bgColor = 0xFF202020;
 		pila = new Pila();
+		pila_trail = new FlxTrail(pila, null, 10, 3, 0.4, 0.05);
 		pila.menu_mode = true;
 		add(pila);
+		add(pila_trail);
 		pila.push(new FlxTimer(0));
 		
 		text_title = new FlxText(0, FlxG.height * 0.25, FlxG.width, "PONGCERTO");
@@ -107,6 +111,8 @@ class MenuState extends FlxState {
 		
 		pila.destroy();
 		pila = null;
+		pila_trail.destroy();
+		pila_trail = null;
 	
 		super.destroy();
 	}	

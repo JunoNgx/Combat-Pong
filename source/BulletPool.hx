@@ -42,7 +42,7 @@ class BulletPool extends FlxSpriteGroup {
 			bullet.velocity.y = G.bulletSpeed * forceRate * G.forceRate_multiplier;
 		}
 		
-		bullet.x = X + bullet.width/2;
+		bullet.x = X - bullet.width/2;
 		bullet.revive();
 	}
 	

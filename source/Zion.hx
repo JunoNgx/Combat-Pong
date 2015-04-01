@@ -16,7 +16,7 @@ class Zion extends FlxSpriteGroup {
 	var input_lt: Bool;
 	var input_rt: Bool;
 	
-	var forceRate: Float;
+	public var forceRate: Float;
 #if mobile
 	var touchID: Int = -1;
 	var touchID2: Int = -1;
@@ -60,7 +60,7 @@ class Zion extends FlxSpriteGroup {
 	
 	public function updatePosition(): Void {
 		this.forEachAlive(function (pad: FlxSprite):Void {
-			pad.x = this.x + (pad.ID - ((G.numOfPad + 1)/2)) * (pad.width + G.padSpacing) - G.padSpacing/2;
+			pad.x = this.x + (pad.ID - ((G.numOfPad + 1)/2)) * (pad.width + G.padSpacing) - pad.width/2;
 		});
 	}
 	
@@ -78,7 +78,7 @@ class Zion extends FlxSpriteGroup {
 		//}
 		
 		if (FlxG.keys.anyPressed( ["S"] )) {
-			if (forceRate < 5) forceRate += FlxG.elapsed;
+			if (forceRate < G.forceRate_max) forceRate += FlxG.elapsed;
 		}
 		
 		if (FlxG.keys.anyJustReleased( ["S"] )) {
@@ -114,7 +114,7 @@ class Zion extends FlxSpriteGroup {
 		if (touchID2 != -1) {
 				var t = FlxG.touches.getByID(touchID2);
 				if (t.pressed) {
-					if (forceRate < 5) forceRate += FlxG.elapsed;
+					if (forceRate < G.forceRate_max) forceRate += FlxG.elapsed;
 				}
 				if (t.justReleased) {
 					fire();

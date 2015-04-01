@@ -24,7 +24,9 @@ using flixel.util.FlxSpriteUtil;
 class PlayState extends FlxState {
 	
 	public var aino: Aino;
+	public var ainoCore: AinoCore;
 	public var zion: Zion;
+	public var zionCore: ZionCore;
 	public var pila: Pila;
 	public var pila_trail: FlxTrail;
 	
@@ -70,7 +72,9 @@ class PlayState extends FlxState {
 		
 		//Entities
 		aino = new Aino();
+		ainoCore = new AinoCore();
 		zion = new Zion();
+		zionCore = new ZionCore();
 		pila = new Pila();
 		pila_trail = new FlxTrail(pila);
 		ui = new UI();
@@ -78,7 +82,9 @@ class PlayState extends FlxState {
 		add(ui);
 		add(bulletPool);
 		add(aino);
+		add(ainoCore);
 		add(zion);
+		add(zionCore);
 		add(pila);
 		add(pila_trail);
 		add(expPool);
@@ -103,11 +109,15 @@ class PlayState extends FlxState {
 		FlxG.watch.add(this, "hp_zion");
 		FlxG.watch.add(pila, "speed");
 		//FlxG.debugger.track(expPool);
-		//FlxG.debugger.track(exp);
+		//FlxG.debugger.track(aino);
+		//FlxG.debugger.track(ainoCore);
 	}
 
 	override public function update():Void {
 		super.update();
+		
+		ainoCore.sync(aino);
+		zionCore.sync(zion);
 		
 		FlxG.collide(aino, pila, collideAino);
 		FlxG.collide(zion, pila, collideZion);
@@ -134,9 +144,15 @@ class PlayState extends FlxState {
 			hp_aino -= 1;
 		}
 		
-		//Spawn impacts
-		if (pila.x < 0) impactPool.spawnSingleEntity(pila.x, pila.y + pila.height/2, G.impact_scale_small);
-		if (pila.x > FlxG.width - pila.width) impactPool.spawnSingleEntity(pila.x + pila.height, pila.y + pila.height/2, G.impact_scale_small);
+		//Spawn impacts and resolve collision
+		if (pila.x < 0) {
+			pila.x = 0;
+			impactPool.spawnSingleEntity(pila.x, pila.y + pila.height / 2, G.impact_scale_small);
+		}
+		if (pila.x > FlxG.width - pila.width) {
+			pila.x = FlxG.width - pila.width;
+			impactPool.spawnSingleEntity(pila.x + pila.height, pila.y + pila.height / 2, G.impact_scale_small);
+		}
 		
 		// Reset the game upon ending
 		if (this.ended == true) {		
@@ -246,12 +262,17 @@ class PlayState extends FlxState {
 	override public function destroy():Void {
 		aino.destroy();
 		aino = null;
+		ainoCore.destroy();
+		ainoCore = null;
 		zion.destroy();
 		zion = null;
+		zionCore.destroy();
+		zionCore = null;
 		pila.destroy();
 		pila = null;
 		pila_trail.destroy();
 		pila_trail = null;
+		
 		bulletPool.destroy();
 		bulletPool = null;
 		expPool.destroy();

@@ -7,7 +7,7 @@ package;
 class G {
 	public static var gameColor:Int = 0xFFFFE135;
 	
-	public static var margin_x: Int = 60;
+	public static var margin_x: Int = 70;
 	
 	public static var numOfPad: Int = 5;
 	public static var padThickness: Int = 8;
@@ -18,6 +18,7 @@ class G {
 	public static var player_core_multiplier:Float = 5;
 	
 	public static var forceRate_min: Float = 0.3;
+	public static var forceRate_max: Float = 5;
 	public static var forceRate_multiplier: Float = 2;
 	
 	public static var bulletSpeed = 300;
