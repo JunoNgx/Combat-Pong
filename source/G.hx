@@ -9,6 +9,8 @@ class G {
 	
 	public static var margin_x: Int = 70;
 	
+	public static var initial_hp: Int = 5;
+	
 	public static var numOfPad: Int = 5;
 	public static var padThickness: Int = 8;
 	public static var padLength: Int = 24;

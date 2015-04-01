@@ -30,8 +30,8 @@ class PlayState extends FlxState {
 	public var pila: Pila;
 	public var pila_trail: FlxTrail;
 	
-	public var hp_aino: Int = 5;
-	public var hp_zion: Int = 5;
+	public var hp_aino: Int = G.initial_hp;
+	public var hp_zion: Int = G.initial_hp;
 	public var ended: Bool = false;
 	
 	public static var bulletPool: BulletPool;
@@ -230,7 +230,9 @@ class PlayState extends FlxState {
 			timer_pushBall.reset();
 		} else {
 			remove(zion);
+			remove(zionCore);
 			remove(aino);
+			remove(ainoCore);
 			setupResultText();
 			
 			if (hp_aino == 0) {
@@ -251,11 +253,11 @@ class PlayState extends FlxState {
 	function setupResultText():Void {
 		text_aino = new FlxText(FlxG.width/2 - 100, FlxG.height/2 + 100, 200);
 		text_aino.text = str_win;
-		text_aino.setFormat("assets/fonts/boring.ttf", 50, FlxColor.WHITE, "center");
+		text_aino.setFormat("assets/fonts/quer.ttf", 40, FlxColor.WHITE, "center");
 		
 		text_zion = new FlxText(FlxG.width/2 - 100, FlxG.height/2 - 180, 200);
 		text_zion.text = str_win;
-		text_zion.setFormat("assets/fonts/boring.ttf", 50, FlxColor.WHITE, "center");
+		text_zion.setFormat("assets/fonts/quer.ttf", 40, FlxColor.WHITE, "center");
 		text_zion.angle = -180;
 	}
 	
@@ -270,7 +272,7 @@ class PlayState extends FlxState {
 		zionCore = null;
 		pila.destroy();
 		pila = null;
-		pila_trail.destroy();
+		//pila_trail.destroy();
 		pila_trail = null;
 		
 		bulletPool.destroy();
