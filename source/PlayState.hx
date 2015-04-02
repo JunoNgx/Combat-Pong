@@ -143,7 +143,7 @@ class PlayState extends FlxState {
 			pila.reposition();
 			timer_reset = new FlxTimer(1, resetGame);
 			hp_aino -= 1;
-			FlxG.camera.shake(0.01, 0.5);
+			
 		}
 		
 		//Spawn impacts and resolve collision
