@@ -2,6 +2,7 @@ package;
 
 import flixel.FlxG;
 import flixel.FlxState;
+import flixel.system.FlxSound;
 import flixel.system.scaleModes.RatioScaleMode;
 
 import flixel.FlxSprite;
@@ -41,6 +42,10 @@ class PlayState extends FlxState {
 	public var timer_reset: FlxTimer;
 	
 	public static var ui: UI;
+	public static var sfx_exp: FlxSound;
+	public static var sfx_hit: FlxSound;
+	public static var sfx_col2: FlxSound;
+	public static var sfx_score: FlxSound;
 	
 	public static var text_aino: FlxText;
 	public static var text_zion: FlxText;
@@ -78,6 +83,11 @@ class PlayState extends FlxState {
 		pila = new Pila();
 		pila_trail = new FlxTrail(pila);
 		ui = new UI();
+		
+		sfx_exp = FlxG.sound.load("assets/sounds/explosion.ogg");
+		sfx_hit = FlxG.sound.load("assets/sounds/hit.ogg");
+		sfx_col2 = FlxG.sound.load("assets/sounds/collide2.ogg");
+		sfx_score = FlxG.sound.load("assets/sounds/score.ogg");
 		
 		add(ui);
 		add(bulletPool);
@@ -135,6 +145,7 @@ class PlayState extends FlxState {
 			timer_reset = new FlxTimer(1, resetGame);
 			hp_zion -= 1;
 			FlxG.camera.shake(0.01, 0.5);
+			sfx_score.play();
 		}
 		
 		if (pila.y > FlxG.height - pila.height) {
@@ -143,6 +154,7 @@ class PlayState extends FlxState {
 			pila.reposition();
 			timer_reset = new FlxTimer(1, resetGame);
 			hp_aino -= 1;
+			sfx_score.play();
 			
 		}
 		
@@ -178,13 +190,13 @@ class PlayState extends FlxState {
 	private function collideAino(pad: FlxSprite, pila: Pila):Void {
 		pila.collideBottom();
 		impactPool.spawnSingleEntity(pila.x + pila.width/2, pila.y + pila.height/2, G.impact_scale_small);
-		
+		sfx_col2.play();
 	}
 	
 	private function collideZion(pad: FlxSprite, pila: Pila):Void {
 		pila.collideTop();
 		impactPool.spawnSingleEntity(pila.x + pila.width/2, pila.y, G.impact_scale_small);
-		
+		sfx_col2.play();
 	}
 	
 	//private function pushObjects(Obj1: FlxSprite, Obj2:FlxSprite):Void {
@@ -197,14 +209,16 @@ class PlayState extends FlxState {
 		expPool.explode(Obj2.x, Obj2.y);
 		Obj1.kill();
 		Obj2.kill();
+		sfx_exp.play();
 	}
 	
 	private function hitShake(Obj1: FlxSprite, Obj2:FlxSprite):Void {
 		expPool.explode(Obj1.x, Obj1.y);
 		expPool.explode(Obj2.x, Obj2.y);
-		FlxG.camera.shake(0.01, 0.5);
 		Obj1.kill();
 		Obj2.kill();
+		FlxG.camera.shake(0.01, 0.5);
+		sfx_hit.play();
 	}
 	
 	
@@ -285,6 +299,15 @@ class PlayState extends FlxState {
 		impactPool = null;
 		ui.destroy();
 		ui = null;
+		
+		sfx_hit.destroy();
+		sfx_hit = null;	
+		sfx_exp.destroy();
+		sfx_exp = null;		
+		sfx_col2.destroy();
+		sfx_col2 = null;
+		sfx_score.destroy();
+		sfx_score = null;
 		
 		text_aino.destroy();
 		text_aino = null;

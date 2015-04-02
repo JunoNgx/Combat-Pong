@@ -1,6 +1,7 @@
 package;
 
 import flixel.FlxSprite;
+import flixel.system.FlxSound;
 import flixel.util.FlxColor;
 import flixel.FlxG;
 import flixel.group.FlxSpriteGroup;
@@ -17,6 +18,8 @@ class Zion extends FlxSpriteGroup {
 	var input_rt: Bool;
 	
 	public var forceRate: Float;
+	public var sfx_fire: FlxSound;
+	
 #if mobile
 	var touchID: Int = -1;
 	var touchID2: Int = -1;
@@ -28,6 +31,8 @@ class Zion extends FlxSpriteGroup {
 	public function new() {
 		super();
 		this.maxSize = G.numOfPad;
+		
+		sfx_fire = FlxG.sound.load("assets/sounds/fire.ogg");
 		
 		initiate();
 	}
@@ -139,6 +144,7 @@ class Zion extends FlxSpriteGroup {
 	
 	public function fire():Void {
 		PlayState.bulletPool.fireBullet(false, this.x, forceRate);
+		sfx_fire.play();
 	}
 	
 #if mobile

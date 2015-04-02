@@ -9,6 +9,7 @@ import flixel.ui.FlxButton;
 import flixel.util.FlxMath;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
+//import flixel.util.FlxDestroyUtil;
 
 import flixel.system.scaleModes.FillScaleMode;
 import flixel.system.scaleModes.RatioScaleMode;
@@ -129,6 +130,7 @@ class MenuState extends FlxState {
 		text_copyright.destroy();
 		text_copyright = null;
 		
+		//FlxDestroyUtil.destroy(pila_trail);
 		//pila_trail.destroy();
 		pila_trail = null;
 		pila.destroy();

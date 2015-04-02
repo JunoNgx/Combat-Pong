@@ -1,5 +1,6 @@
 package;
 import flixel.FlxSprite;
+import flixel.system.FlxSound;
 import flixel.util.FlxColor;
 import flixel.util.FlxRandom;
 import flixel.FlxG;
@@ -21,9 +22,14 @@ class Pila extends FlxSprite {
 	public var menu_mode: Bool = false;
 	
 	private var speed = G.pilaSpeed_initial;
+	
+	public var sfx_collide1: FlxSound;
 
 	public function new() {
 		super();
+		
+		sfx_collide1 = FlxG.sound.load("assets/sounds/collide1.ogg");
+		
 		//Origintal prototype graphic
 		//makeGraphic(8, 8, FlxColor.CRIMSON);
 		
@@ -53,12 +59,24 @@ class Pila extends FlxSprite {
 		this.velocity.x = dir_x * speed;
 		this.velocity.y = dir_y * speed;
 		
-		if (this.x < 0) collideLeft();
-		if (this.x > FlxG.width - this.width) collideRight();
+		if (this.x < 0) {
+			collideLeft();
+			if (!menu_mode) sfx_collide1.play();
+		}
+		if (this.x > FlxG.width - this.width) {
+			collideRight();
+			if (!menu_mode) sfx_collide1.play();
+		}
 		
 		if (menu_mode) {
-			if (this.y < 0) collideTop();
-			if (this.y > FlxG.height - this.height) collideBottom();
+			if (this.y < 0) {
+				collideTop();
+				//sfx_collide1.play();
+			}
+			if (this.y > FlxG.height - this.height) {
+				collideBottom();
+				//sfx_collide1.play();
+			}
 		}
 	}
 	

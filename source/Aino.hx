@@ -1,6 +1,7 @@
 package;
 
 import flixel.FlxSprite;
+import flixel.system.FlxSound;
 import flixel.util.FlxColor;
 import flixel.FlxG;
 import flixel.group.FlxSpriteGroup;
@@ -20,6 +21,7 @@ class Aino extends FlxSpriteGroup {
 	
 	public var forceRate: Float;
 	//static var core:FlxSprite;
+	public var sfx_fire: FlxSound;
 	
 #if mobile
 	var touchID: Int = -1;
@@ -32,6 +34,8 @@ class Aino extends FlxSpriteGroup {
 	public function new() {
 		super();
 		this.maxSize = G.numOfPad;
+		
+		sfx_fire = FlxG.sound.load("assets/sounds/fire.ogg");
 		
 		//core = new FlxSprite();
 		//core.makeGraphic(25, 25, FlxColor.TRANSPARENT, true);
@@ -162,6 +166,7 @@ class Aino extends FlxSpriteGroup {
 	
 	public function fire():Void {
 		PlayState.bulletPool.fireBullet(true, this.x, forceRate);
+		sfx_fire.play();
 	}
 
 #if mobile
