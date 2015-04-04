@@ -40,6 +40,7 @@ class BulletPool extends FlxSpriteGroup {
 		} else {
 			bullet.y = FlxG.height * 0.1 + distFromCtrl;
 			bullet.velocity.y = G.bulletSpeed * forceRate * G.forceRate_multiplier;
+			bullet.angle = -180;
 		}
 		
 		bullet.x = X - bullet.width/2;

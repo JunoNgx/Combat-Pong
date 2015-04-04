@@ -90,9 +90,6 @@ class Pila extends FlxSprite {
 		} else dir_y = -1;
 	}
 	
-	// Due to usage of overlapping, speed will be upped
-	// several times for each collision
-	// As of now, observed to be 4 times
 	public function collideTop(): Void {
 		dir_y = 1;
 		if (!menu_mode) this.speed += G.pilaSpeed_upRate;

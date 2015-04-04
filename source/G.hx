@@ -25,7 +25,7 @@ class G {
 	
 	public static var bulletSpeed = 300;
 	public static var pilaSpeed_initial = 300;
-	public static var pilaSpeed_upRate = 10;
+	public static var pilaSpeed_upRate = 20;
 	
 	//explosion
 	public static var exp_number_min = 1;
