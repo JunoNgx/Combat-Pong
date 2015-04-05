@@ -16,7 +16,7 @@ class G {
 	public static var padLength: Int = 24;
 	public static var padSpacing: Int = 7;
 	
-	public static var playerSpeed:Float = 500;
+	public static var playerSpeed:Float = 1000;
 	public static var player_core_multiplier:Float = 5;
 	
 	public static var forceRate_min: Float = 0.3;
@@ -37,8 +37,8 @@ class G {
 	public static var exp_timediff_min = 0.02;
 	public static var exp_timediff_max = 0.05;
 	
-	public static var bullet_width = 12;
-	public static var bullet_height = 24;
+	public static var bullet_width = 18;
+	public static var bullet_height = 36;
 	
 	public static var impact_lifetime = 0.7;
 	public static var impact_scale_small = 0.5;

@@ -34,9 +34,9 @@ class Aino extends FlxSpriteGroup {
 	public function new() {
 		super();
 		this.maxSize = G.numOfPad;
-		
+
 		sfx_fire = FlxG.sound.load("assets/sounds/fire.ogg");
-		
+
 		//core = new FlxSprite();
 		//core.makeGraphic(25, 25, FlxColor.TRANSPARENT, true);
 		////var vertices = new Array<FlxPoint>();

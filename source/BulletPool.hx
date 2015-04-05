@@ -37,6 +37,7 @@ class BulletPool extends FlxSpriteGroup {
 		if (fromAino) {
 			bullet.y = FlxG.height * 0.9 - bullet.height - distFromCtrl;
 			bullet.velocity.y = -G.bulletSpeed * forceRate * G.forceRate_multiplier;
+			bullet.angle = 0;
 		} else {
 			bullet.y = FlxG.height * 0.1 + distFromCtrl;
 			bullet.velocity.y = G.bulletSpeed * forceRate * G.forceRate_multiplier;
