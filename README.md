@@ -1,3 +1,7 @@
+My first and only HaxeFlixel project. Migrated from a private repository on bitbucket.
+
+The game has been released in 2015 on [Google Play Store as Pongcerto](https://play.google.com/store/apps/details?id=com.junongx.pongcerto).
+
 # Overview #
 
 A classic pong with a twist in shooting combat.
